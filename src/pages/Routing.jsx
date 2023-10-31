@@ -13,6 +13,8 @@ import Courses from './Courses'
 import About from './About'
 import Applyform from './Applyform'
 import Showapplied from './Showapplied'
+import Contact from './Contact'
+import SearchPage from './SearchPage'
 
 const Routing = () => {
     function PrivateRoute({ children }){
@@ -69,8 +71,16 @@ const Routing = () => {
             component: <Applyform/>
         },
         {
-            path: '/show',
-            component: <Showapplied/>
+            path: '/search/:encodedResults',
+            component: <SearchPage/>
+        },
+        // {
+        //     path: '/show',
+        //     component: <Showapplied/>
+        // },
+        {
+            path: '/contact',
+            component: <Contact/>
         },
         {
             path: '/profile',

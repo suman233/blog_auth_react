@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import { axiosInstance } from '../Services/Apicall'
-import { Box, Button, Modal } from '@mui/material'
+import { Box, Button, Modal, Typography } from '@mui/material'
 
 const CategoryDetails = () => {
 
@@ -74,7 +74,8 @@ const CategoryDetails = () => {
                                                 <>
                                                     <div className='card my-3' key={idx}>
                                                         <h5>Section {idx + 1} </h5>
-                                                        <p><b>Title: </b>{cgs.title}</p>
+                                                        <center><img src={`https://restapinodejs.onrender.com/api/blog/image/${cgs._id}`} alt="" width={1000} /></center>
+                                                        <Typography><b>Title: </b>{cgs.title}</Typography>
                                                         <p> <b>Post:</b>
                                                             <p dangerouslySetInnerHTML={{ __html: cgs?.postText }}></p></p>
                                                         {/* <p><b>Posts: </b>{cgs.postText}</p> */}

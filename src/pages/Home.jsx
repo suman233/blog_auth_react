@@ -11,8 +11,8 @@ const Home = () => {
     // const url='https://restapinodejs.onrender.com/api/banner'
     const [images, setImages] = useState([])
     const [load, setload] = useState(true)
-    const theme=useTheme()
-    const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
+    const theme = useTheme()
+    // const largeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
     const getBannerImages = async () => {
         const resp = await axiosInstance.get(`/api/banner`)
@@ -71,7 +71,7 @@ const Home = () => {
 
                         <center>
                             {/* <ClipLoader size={'300px'} color='green' cssOverride={{ marginTop: '10px' }} /> */}
-                            <Skeleton variant="rectangular" sx={{fontSize: '35rem'}} />
+                            <Skeleton variant="rectangular" sx={{ fontSize: '35rem' }} />
                             {/* <Skeleton variant="text" sx={{ mt: 2 }} width={500} /> */}
                             {/* <Skeleton variant="text" sx={{ fontSize: '4rem' }} /> */}
                         </center>) :
@@ -81,15 +81,15 @@ const Home = () => {
                                     {images?.map((item, index) => (
                                         <>
                                             <div>
-                                                <img key={index} src={`${bannerUrl}/photo/${item._id}`} alt='' height={680} width='2100px' />
+                                                <img key={index} src={`${bannerUrl}/photo/${item._id}`} alt='' height={800} width='100%' />
                                                 {/* <p style={{ textAlign: 'center', position:'absolute', color: 'white', top:'50%', left: '45%'}}>{item.title}</p> */}
-                                                <Box sx={{ ...style,  textAlign: 'center' }}>
+                                                <Box sx={{ ...style, textAlign: 'center' }}>
                                                     <h2>{item.title}</h2>
                                                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit quia similique
                                                         omnis ut perferendis reiciendis eum tempora quasi corporis eveniet! Earum optio quisquam ea praesentium, eius voluptatum animi
                                                         totam mollitia voluptatem aspernatur magni blanditiis maxime laborum repellendus
                                                         amet saepe eos tempora provident.</p>
-                                                    <Button variant='contained' color='primary' sx={{color:'black', bgcolor:'whitesmoke'}}>Read More</Button>
+                                                    <Button variant='contained' color='primary' sx={{ color: 'black', bgcolor: 'whitesmoke' }}>Read More</Button>
                                                 </Box>
                                             </div>
                                         </>
@@ -97,15 +97,20 @@ const Home = () => {
                                 </Carousel>
                                 <Container>
                                     <Typography variant='h2' sx={{ textAlign: 'center', m: 5, fontWeight: 'bold' }}>Services</Typography>
-                                    <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }} direction={largeScreen?"row":"column"}>
+                                    <Grid container
+                                        rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                                        direction={{ xs: "column", md: "row" }}
+                                        justifyContent={{ xs: 'center', md: "flex-baseline" }}
+                                        alignItems={{ xs: 'center' }}
+                                    >
                                         {services.map((service, index) => {
                                             return (
                                                 <>
-                                                    <Grid item xs={4} sx={{flexDirection: {xs: 'column', md: 'row'}}}>
-                                                        <Card sx={{ maxWidth: 345, mb: 2, textAlign: 'center' }} key={index}>
+                                                    <Grid item xs={4}>
+                                                        <Card sx={{ maxWidth: 'auto', mb: 2, textAlign: 'center' }} key={index}>
                                                             <CardActionArea sx={{ color: 'blue' }}>
                                                                 <CardMedia
-                                                                    sx={{ height: 240, m: 2 }}
+                                                                    sx={{ height: 240, m: 2, width:300 }}
                                                                     // image={`${courseImgUrl}/${service._id}`}
                                                                     // image='https://cdn-icons-png.flaticon.com/512/8653/8653200.png'
                                                                     image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWpRaJCfQqdNa8NNuaUvxIPuNfsNzJJCiCEbora8wUQsSNOjV_OeSrdEFAEZiqdeX7NJ0&usqp=CAU'
@@ -136,15 +141,16 @@ const Home = () => {
                                         })}
                                     </Grid>
                                     <Typography variant='h2' sx={{ textAlign: 'center', m: 5, fontWeight: 'bold' }}>Testimonial</Typography>
-                                    <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} direction={{ xs: "column", md: "row" }}
+                                        justifyContent={{ xs: "center", md: "flex-baseline" }}>
                                         {testimonial.map((feedback, index) => {
                                             return (
                                                 <>
                                                     <Grid item xs={6}>
-                                                        <Card sx={{ maxWidth: 605, mb: 2, textAlign: 'center' }} key={index}>
+                                                        <Card sx={{ maxWidth: 'auto', mb: 2, textAlign: 'center' }} key={index}>
                                                             <CardActionArea sx={{ color: 'gray' }}>
                                                                 <CardMedia
-                                                                    sx={{ height: 340, m: 2 }}
+                                                                    sx={{ height: 320, m: 2 }}
                                                                     image={`${testImg}/${feedback._id}`}
                                                                     title="feedback"
                                                                 />
@@ -168,7 +174,7 @@ const Home = () => {
                                                                     variant="body"
                                                                     component="div"
                                                                 >
-                                                                    {feedback.talk.slice(0, 30)}
+                                                                    {feedback.talk.slice(0, 100)}
                                                                 </Typography>
                                                             </CardContent>
 

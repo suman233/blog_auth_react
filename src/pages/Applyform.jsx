@@ -259,10 +259,11 @@ const Applyform = () => {
                         m:2,
                         textAlign: 'center'
                     }}
-                    onSubmit={handleSubmit}
+                    onSubmit={handleSubmit} 
                 >
                     <FormControl fullWidth required sx={{ boxShadow: '0px 0px 30px #888888' }}>
-                        <TextField label="Name" id="fullWidth1" placeholder='Enter your name' name='name' defaultValue={auth?.user?.name}
+                        <TextField label="Name" id="fullWidth1" placeholder='Enter your name' name='name' value={name}
+                            onChange={e => setName(e.target.value)}
                         />
                         <TextField label="Email" id="fullWidth2" type='email' placeholder='Enter your email' value={email}
                             onChange={e => setEmail(e.target.value)}

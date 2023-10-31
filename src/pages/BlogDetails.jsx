@@ -1,18 +1,19 @@
 import { Button, Container, Skeleton, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import CircularProgress from '@mui/material/CircularProgress';
 import { FormControl, TextField, Grid } from '@mui/material';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../Services/Apicall'
 import { useAuth } from '../Auth/Authtext';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 const BlogDetails = () => {
   const { _id } = useParams()
   const [auth] = useAuth()
   const [api1, setApi] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [comments, setComments] = useState([])
   const [skeletonLoad, setSkeletonLoad] = useState(true)
   const nav = useNavigate()
@@ -21,7 +22,7 @@ const BlogDetails = () => {
     setLoading(true)
     // const blogUrl = `https://restapinodejs.onrender.com`
     const response = await axiosInstance.get(`/api/blogDetails/${_id}`)
-    console.log('details', response?.data.data);
+    // console.log('details', response?.data.data);
     setApi(response?.data.data)
     setLoading(false)
   }
@@ -32,16 +33,55 @@ const BlogDetails = () => {
       const result = await axiosInstance.get(`/api/comment/${_id}`)
       // setComments(result.data)
       setComments(result?.data?.post?.comment?.comments)
-      console.log("z", result.data.post.comment.comments);
+      // console.log("z", result.data.post.comment.comments);
       setSkeletonLoad(false)
     } catch (error) {
       console.log('Error', error);
     }
   }
+  const [like, setLike] = useState(true)
+  const [islikeClicked, setIsLikeClicked] = useState(localStorage.getItem(`liked_${_id}`) === 'true');
+
+  const handleLike = async () => {
+    try {
+      if (!islikeClicked) {
+        const response = await axiosInstance.put(`/api/blog/like/${_id}`)
+        setLike(response?.data.likes)
+        toast.success(response.data.message)
+        blogapi()
+        setIsLikeClicked(true)
+        localStorage.setItem(`liked_${_id}`, 'true');
+      } else {
+        toast.warn("Already Liked")
+      }
+
+    } catch (error) {
+      toast.error("something went wrong")
+    }
+
+  }
+  // const [loadlike, setLoadLike] = useState(true)
+  const getLikes = async () => {
+    try {
+      const resp = await axiosInstance.put(`/api/blog/like/${_id}`)
+      if (resp) {
+        setLike(false)
+        toast.success('You liked this blog')
+        setLoading(false)
+        // setLoadLike(false)
+        console.log('l', resp.data.likes);
+      }
+      else {
+        setLike(!like)
+      }
+    } catch (error) {
+      toast.error('Try again')
+    }
+  }
 
   const rev_arr = comments.reverse()
-  console.log('arr', comments);
-  console.log('rev', rev_arr);
+  // console.log('arr', comments);
+  // console.log('rev', rev_arr);
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -58,7 +98,7 @@ const BlogDetails = () => {
     })
     if (response) {
       toast.success(response.data && response.data.message)
-      console.log(response.data.comment);
+      // console.log(response.data.comment);
       getComments();
       setName('')
       setEmail('')
@@ -74,6 +114,7 @@ const BlogDetails = () => {
   useEffect(() => {
     blogapi();
     getComments();
+    // getLikes();
     // commentData();
   }, [])
 
@@ -95,17 +136,38 @@ const BlogDetails = () => {
                 <center><img src={`https://restapinodejs.onrender.com/api/blog/image/${api1._id}`} alt="" width={1000} /></center>
                 <p> <b>Post: </b>
                   <p dangerouslySetInnerHTML={{ __html: api1?.postText }}></p></p>
-                <div className='text-center'>
-                  <button className='btn btn-success' onClick={() => nav(`/blog`)}>Go to Blogs</button>
+                <div >
+                  <p style={{ fontSize: 24 }}> <b>Name: </b>Suman &nbsp; <b>Date:</b> <time dateTime="2020-01-01">{(new Date(api1.createdAt)).toLocaleDateString()}</time> &nbsp; <b>Comments:</b> {comments.length} &nbsp; Like:
+                    <Button onClick={() => handleLike()} disabled={islikeClicked}><ThumbUpIcon color='blue' /> &nbsp; ({api1.likes})</Button>
+                    {/* { like ?
+                      <Button onClick={() => handleLike()} disabled={islikeClicked}><ThumbUpIcon color='blue' /> &nbsp; ({api1.likes})</Button>
+                      : (
+                        <>
+                          <Button >
+                            <ThumbUpIcon sx={{color: 'grey'}}/>&nbsp;(
+                              {api1.likes})
+                              
+                          </Button>
+                        </>
+                      )
+                  } */}
+                  </p>
                 </div>
+                {/* <div className='text-center'>
+                  <button className='btn btn-success' onClick={() => nav(`/blog`)}>Go to Blogs</button>
+                </div> */}
               </div>
             </div>
           )}
-      </Container>
+      </Container >
       <Container>
         <Typography variant='h4'>Comments ({comments.length})</Typography>
         {!skeletonLoad ? (
-          comments?.length > 0 && comments.reverse(-1).slice(0, loadmore).map((item, index) => {
+          comments?.length > 0 && comments.sort((a, b) => {
+            // if(a.createdAt<b.createdAt){return 1;}else{return null;}
+            let dateA = new Date(a.createdAt), dateB = new Date(b.createdAt);
+            return dateB - dateA;
+          }).slice(0, loadmore).map((item, index) => {
             return (
               <>
                 <h3>{item.name}</h3>

@@ -29,7 +29,10 @@ const Courses = () => {
         {
           loading ? <center><ScaleLoader color='green' size={300} /></center> : null
         }
-        <Grid container rowSpacing={8} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }} direction={{ xs: "column", md: "row" }}
+          justifyContent={{ xs: "center", md: "flex-baseline" }}
+          alignItems={{xs:'center'}}
+          >
           {courses.map((course, index) => {
             return (
               <>
@@ -40,9 +43,9 @@ const Courses = () => {
                       sx={{ bgcolor: 'blueviolet' }}
                     />
                     <CardMedia
-                      sx={{ height: 240, m: 3 }}
+                      sx={{ height: 240, m: 3, width:280 }}
                       image={`${courseImgUrl}/${course._id}`}
-                      title=""
+                      title={course.name}
                     />
                     <CardContent>
                       <Typography

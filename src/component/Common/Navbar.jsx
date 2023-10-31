@@ -79,57 +79,15 @@ const Navbar = () => {
 
     return (
         <>
-            {/* <nav class="navbar navbar-expand-lg bg-light">
-                <div class="container-fluid">
-                    <Link class="navbar-brand" to="/">Navbar</Link>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <Link class="nav-link active" aria-current="page" to="/home">Home</Link>
-                            </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="/about">About</Link>
-                            </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="/courses">Courses</Link>
-                            </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="/blog">Blog</Link>
-                            </li>
-                            {
-                                !auth.user ? (
-                                    <>
-                                        <li class="nav-item">
-                                            <Link class="nav-link" to="/register">Register</Link>
-                                        </li>
-                                        <li class="nav-item">
-                                            <Link class="nav-link" to="/">Login</Link>
-                                        </li>
-                                    </>
-                                ) : (
-                                    <>
-                                        <li class="nav-item">
-                                            <Link class="nav-link" to="/" onClick={handleLogout}>Logout</Link>
-                                        </li>
-                                    </>
-                                )
-                            }
-
-                        </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </nav> */}
-
-            <AppBar position="static">
+            <AppBar position="static" sx={{ backgroundColor: 'rgb(211, 211, 211)' }}>
                 <Container maxWidth="xl">
-                    <Toolbar disableGutters>
+                    <Toolbar disableGutters
+                        sx={{
+                            display: { xs: 'flex' },
+                            flexDirection: 'row',
+                            // justifyContent:'space-around'
+                        }}
+                    >
                         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                         <Typography
                             variant="h6"
@@ -197,7 +155,7 @@ const Navbar = () => {
                             component="a"
                             href="#"
                             sx={{
-                                mr: 2,
+                                mr: 0,
                                 display: { xs: 'flex', md: 'none' },
                                 flexGrow: 1,
                                 fontFamily: 'monospace',
@@ -209,7 +167,9 @@ const Navbar = () => {
                         >
                             Blog App
                         </Typography>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        <Box sx={{
+                            flexGrow: 1, display: { xs: 'none', md: 'flex' }, mr:15}} alignItems="center"
+                            justifyContent="center">
                             {
                                 !auth.user ? null : (
                                     <>
@@ -245,7 +205,7 @@ const Navbar = () => {
                                     <>
                                         <Tooltip title="Open settings">
                                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                                <Avatar alt={auth.user.name} src="/static/images/avatar/2.jpg" />
+                                                <Avatar sx={{ backgroundColor: 'lightblue' }} alt={auth.user.name} src="/static/images/avatar/2.jpg" />
                                             </IconButton>
                                         </Tooltip>
                                         <Menu
@@ -275,17 +235,17 @@ const Navbar = () => {
                                                         {setting}
                                                     </Typography>
                                                     <Modal
-                                                            open={open}
-                                                            onClose={handleClose}
-                                                            aria-labelledby="child-modal-title"
-                                                            aria-describedby="child-modal-description"
-                                                        >
-                                                            <Box sx={{ ...style, width: 300, textAlign: 'center' }}>
-                                                                <h2>Waana go away?</h2>
-                                                                <p>Are you sure...you want to logout?</p>
-                                                                <Button onClick={handleLogout}>Logout</Button>
-                                                            </Box>
-                                                        </Modal>
+                                                        open={open}
+                                                        onClose={handleClose}
+                                                        aria-labelledby="child-modal-title"
+                                                        aria-describedby="child-modal-description"
+                                                    >
+                                                        <Box sx={{ ...style, width: 300, textAlign: 'center' }}>
+                                                            <h2>Waana go away?</h2>
+                                                            <p>Are you sure...you want to logout?</p>
+                                                            <Button onClick={handleLogout}>Logout</Button>
+                                                        </Box>
+                                                    </Modal>
                                                     {/* <Button
                                                         key={setting}
                                                         component={Link}
